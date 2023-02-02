@@ -30,7 +30,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         linear3image2.setOnClickListener(this)
         linear3image3.setOnClickListener(this)
         active_player.text = "Player X"
-
+var X_mesage=intent.getStringExtra("X_message")
+        var O_mesage=intent.getStringExtra("O_message")
+        playerX.apply {
+            text=X_mesage
+        }
+        playerO.apply {
+            text=O_mesage
+        }
         restart.setOnClickListener {
             restart()
         }
