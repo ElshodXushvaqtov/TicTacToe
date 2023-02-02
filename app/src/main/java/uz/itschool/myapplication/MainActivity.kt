@@ -30,7 +30,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         linear3image2.setOnClickListener(this)
         linear3image3.setOnClickListener(this)
         active_player.text = "Player X"
-
+var X_mesage=intent.getStringExtra("X_message")
+        var O_mesage=intent.getStringExtra("O_message")
+        playerX.apply {
+            text=X_mesage
+        }
+        playerO.apply {
+            text=O_mesage
+        }
         restart.setOnClickListener {
             restart()
         }
@@ -48,10 +55,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         linear3image2.isEnabled = true
         linear3image3.isEnabled = true
         bool = true
-//        x_ochko=0
-//        o_ochko=0
-//        X_ochko.text="0"
-//        O_ochko.text="0"
         matrix = Array(3) { IntArray(3) { -1 } }
         linear1image1.setImageDrawable(null)
         linear1image2.setImageDrawable(null)
