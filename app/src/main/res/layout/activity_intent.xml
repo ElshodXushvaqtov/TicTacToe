@@ -9,7 +9,6 @@
 
     <EditText
         android:id="@+id/X_player"
-        android:padding="10dp"
         android:layout_width="200dp"
         android:layout_height="45dp"
         android:layout_marginBottom="84dp"
@@ -17,11 +16,13 @@
         android:ems="10"
         android:hint="X_player"
         android:inputType="textPersonName"
+        android:padding="10dp"
         android:text=""
         app:layout_constraintBottom_toTopOf="@+id/O_player"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="106dp" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/O_player"
