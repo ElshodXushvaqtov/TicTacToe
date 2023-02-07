@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -11,15 +13,15 @@ var x_ochko = 0
 var o_ochko = 0
 var bool = true
 var winner_is = true
-var isDraw = true
+var isDraw = false
 var matrix = Array(3) { IntArray(3) { -1 } }
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        playerO.text= intent.getStringExtra("playerO");
-        playerX.text= intent.getStringExtra("playerX");
+        playerO.text = intent.getStringExtra("playerO");
+        playerX.text = intent.getStringExtra("playerX");
         linear1image1.setOnClickListener(this)
         linear1image2.setOnClickListener(this)
         linear1image3.setOnClickListener(this)
@@ -30,13 +32,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         linear3image2.setOnClickListener(this)
         linear3image3.setOnClickListener(this)
         active_player.text = "Player X"
-var X_mesage=intent.getStringExtra("X_message")
-        var O_mesage=intent.getStringExtra("O_message")
+        var X_mesage = intent.getStringExtra("X_message")
+        var O_mesage = intent.getStringExtra("O_message")
         playerX.apply {
-            text=X_mesage
+            text = X_mesage
         }
         playerO.apply {
-            text=O_mesage
+            text = O_mesage
         }
         restart.setOnClickListener {
             restart()
@@ -72,7 +74,7 @@ var X_mesage=intent.getStringExtra("X_message")
 
     @SuppressLint("SetTextI18n")
     override fun onClick(view: View?) {
-
+        var animation = AnimationUtils.loadAnimation(this, R.anim.alpha)
         val image = findViewById<ImageView>(view!!.id)
         var tag = image.tag.toString().toInt()
         var col: Int = tag / 3
@@ -82,12 +84,14 @@ var X_mesage=intent.getStringExtra("X_message")
         if (matrix[col][row] == -1) {
             if (bool) {
                 image.setImageResource(R.drawable.krestik)
+                image.startAnimation(animation)
                 bool = false
                 matrix[col][row] = 1
                 active_player.text = "Player-O"
                 isWinner(1)
             } else {
                 image.setImageResource(R.drawable.nolik)
+                image.startAnimation(animation)
                 bool = true
                 matrix[col][row] = 0
                 active_player.text = "Player-X"
@@ -110,6 +114,7 @@ var X_mesage=intent.getStringExtra("X_message")
         linear3image2.isEnabled = false
         linear3image3.isEnabled = false
         restart.visibility = View.VISIBLE
+        if(!isDraw){
         if (winner_is) {
             x_ochko += 1
             X_ochko.text = x_ochko.toString()
@@ -117,12 +122,13 @@ var X_mesage=intent.getStringExtra("X_message")
             o_ochko += 1
             O_ochko.text = o_ochko.toString()
         }
+        }
 
     }
 
     fun isWinner(p: Int) {
         var count = 0
-        var draw=0
+        var draw = 0
         for (i in 0..2) {
             for (j in 0..2) {
                 if (matrix[i][j] == p) {
@@ -136,7 +142,6 @@ var X_mesage=intent.getStringExtra("X_message")
                 } else if (p == 0) {
                     winner_is = false
                 }
-                isDraw = false
                 finishGame()
                 return
             }
@@ -158,7 +163,6 @@ var X_mesage=intent.getStringExtra("X_message")
                 } else if (p == 0) {
                     winner_is = false
                 }
-                isDraw = false
                 finishGame()
                 return
             }
@@ -179,7 +183,7 @@ var X_mesage=intent.getStringExtra("X_message")
                 } else if (p == 0) {
                     winner_is = false
                 }
-                isDraw = false
+
                 finishGame()
                 return
             }
@@ -198,22 +202,24 @@ var X_mesage=intent.getStringExtra("X_message")
                 } else if (p == 0) {
                     winner_is = false
                 }
-                isDraw = false
                 finishGame()
                 return
             }
             count = 0
 
         }
-for (i in 0..2){
-    for (j in 0..2){
-        if(matrix[i][j]!=-1){
-          draw=1
+        for (i in 0..2) {
+            for (j in 0..2) {
+                if (matrix[i][j] == -1) {
+                    draw = 1
+                }
+            }
         }
-    }
-}
-        if(draw==0){
-            winner.text="Draw"
+        if (draw == 0) {
+            winner.text = "Draw"
+            isDraw=true
+            finishGame()
+            return
         }
     }
 }
